@@ -18,10 +18,10 @@ const router = createRouter({
       ]
     },
 
-    // 2. Route cho Admin
     {
       path: '/admin',
       component: AdminLayout,
+      redirect: '/admin/dashboard', 
       children: [
         {
           path: 'orders',
@@ -32,19 +32,27 @@ const router = createRouter({
           component: () => import('../pages/auth/admin/ProductsManager.vue')
         },
         {
+          path: 'attributes',
+          component: () => import('../pages/auth/admin/AttributesManager.vue')
+        },
+        {
           path: 'staffs',
           component: () => import('../pages/auth/admin/StaffsManager.vue')
         },
         {
-          path: 'vouchers', // /admin/vouchers
+          path: 'vouchers', 
           component: () => import('../pages/auth/admin/VoucherManager.vue')
         },
         {
-          path: 'promotions', // /admin/promotions
+          path: 'promotions', 
           component: () => import('../pages/auth/admin/PromotionManager.vue')
         }
-
       ]
+    },
+    
+    { 
+       path: '/:pathMatch(.*)*', 
+       redirect: '/admin/products' 
     }
   ]
 })

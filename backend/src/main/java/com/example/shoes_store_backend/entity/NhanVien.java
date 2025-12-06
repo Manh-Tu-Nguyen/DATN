@@ -18,7 +18,6 @@ public class NhanVien {
     @Column(name = "ID")
     private Integer id;
 
-    // Liên kết nhiều-nhất (nhiều nhân viên thuộc 1 chức vụ)
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "ID_CHUC_VU", nullable = false)
     private ChucVu chucVu;

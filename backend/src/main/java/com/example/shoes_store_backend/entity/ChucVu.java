@@ -1,15 +1,17 @@
 package com.example.shoes_store_backend.entity;
 
 import jakarta.persistence.*;
+import lombok.AllArgsConstructor;
 import lombok.Getter;
+import lombok.NoArgsConstructor;
 import lombok.Setter;
-
-import java.util.List;
 
 @Entity
 @Table(name = "CHUC_VU")
 @Getter
 @Setter
+@NoArgsConstructor
+@AllArgsConstructor
 public class ChucVu {
 
     @Id
@@ -25,8 +27,4 @@ public class ChucVu {
 
     @Column(name = "TRANG_THAI", nullable = false)
     private Boolean trangThai;
-
-
-    @OneToMany(mappedBy = "chucVu", cascade = CascadeType.ALL, fetch = FetchType.LAZY)
-    private List<NhanVien> nhanViens;
 }

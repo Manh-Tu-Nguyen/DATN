@@ -17,12 +17,12 @@ public class SizeController {
     @Autowired
     private SizeService sizeService;
 
-    @GetMapping("/get_all")
+    @GetMapping
     public ResponseEntity<List<Size>> getAll() {
         return ResponseEntity.ok(sizeService.getAll());
     }
 
-    @PostMapping("/add")
+    @PostMapping
     public ResponseEntity<?> add(@Valid @RequestBody SizeDTO dto) {
         try {
             Size entity = new Size();
@@ -36,7 +36,7 @@ public class SizeController {
         }
     }
 
-    @PutMapping("/update/{id}")
+    @PutMapping("/{id}")
     public ResponseEntity<?> update(@PathVariable Integer id, @Valid @RequestBody SizeDTO dto) {
         try {
             Size entity = new Size();
@@ -50,7 +50,7 @@ public class SizeController {
         }
     }
 
-    @DeleteMapping("/delete/{id}")
+    @DeleteMapping("/{id}")
     public ResponseEntity<?> delete(@PathVariable Integer id) {
         try {
             sizeService.delete(id);

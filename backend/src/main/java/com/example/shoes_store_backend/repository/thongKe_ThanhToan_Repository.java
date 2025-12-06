@@ -11,7 +11,6 @@ import java.util.Date;
 import java.util.List;
 
 public interface thongKe_ThanhToan_Repository extends JpaRepository<thongKe_ThanhToan_Entity, Integer> {
-    // Lấy tất cả sản phẩm
     @Query(value = """
         select TT.ID , HD.MA_HOA_DON , TT.MA_THANH_TOAN, TT.HINH_THANH_TOAN ,TT.SO_TIEN_THANH_TOAN,TT.NGAY_THANH_TOAN,TT.TRANG_THAI  from THANH_TOAN TT JOIN HOA_DON HD ON TT.ID_HOA_DON =HD.ID
         """, nativeQuery = true)

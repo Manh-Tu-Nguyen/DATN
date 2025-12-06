@@ -13,8 +13,7 @@
           mang lại sự thoải mái và tự tin cho mỗi bước chân của bạn.
         </p>
         <button
-          class="inline-flex items-center gap-2 bg-rose-500 hover:bg-rose-600 text-white px-6 py-3 rounded-full text-lg font-semibold transition"
-        >
+          class="inline-flex items-center gap-2 bg-rose-500 hover:bg-rose-600 text-white px-6 py-3 rounded-full text-lg font-semibold transition">
           <span>Mua ngay</span>
           <Icon icon="ion:arrow-forward-outline" class="w-5 h-5" aria-hidden="true" />
         </button>

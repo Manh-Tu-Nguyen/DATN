@@ -29,7 +29,7 @@ public class VoucherEntity {
     private BigDecimal giaTri;
 
     @Column(name = "KIEU_GIAM", nullable = false)
-    private String kieuGiam; // % hoặc số tiền
+    private String kieuGiam;
 
     @Column(name = "NGAY_BAT_DAU", nullable = false)
     private LocalDate ngayBatDau;

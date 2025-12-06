@@ -1,14 +1,15 @@
 <script setup>
 import { ref, computed, onMounted } from 'vue';
 import axios from 'axios';
-import { Icon } from '@iconify/vue'; 
+import { Icon } from '@iconify/vue';
+
 const products = ref([]);
 const loading = ref(true);
 const error = ref(null);
 const currentSlide = ref(0);
-const itemsPerPage = 4; 
+const itemsPerPage = 4;
 
-const API_URL = 'http://localhost:8080/quan_ly_chi_tiet_san_pham';
+const API_URL = 'http://localhost:8080/api/san-pham'; 
 
 const totalSlides = computed(() => Math.ceil(products.value.length / itemsPerPage));
 
@@ -21,7 +22,7 @@ const nextSlide = () => {
   if (currentSlide.value < totalSlides.value - 1) {
     currentSlide.value++;
   } else {
-    currentSlide.value = 0; 
+    currentSlide.value = 0;
   }
 };
 
@@ -29,7 +30,7 @@ const prevSlide = () => {
   if (currentSlide.value > 0) {
     currentSlide.value--;
   } else {
-    currentSlide.value = totalSlides.value - 1; 
+    currentSlide.value = totalSlides.value - 1;
   }
 };
 
@@ -37,15 +38,16 @@ const fetchProducts = async () => {
   try {
     loading.value = true;
     const response = await axios.get(API_URL);
-    
 
     products.value = response.data.map(item => ({
         id: item.id,
-        name: item.theLoai || `Sản phẩm #${item.idSanPham}`, 
-        price: item.giaBan,
-        image: "https://placehold.co/300x300/png?text=Giay+Dep", 
-        discount: 0, 
-        rating: 5,   
+        name: item.tenSanPham || `Sản phẩm #${item.maSanPham}`, 
+        
+        price: item.giaBan || 0, 
+        
+        image: "https://placehold.co/300x300/png?text=Giay+Dep", // Entity chưa có ảnh, dùng ảnh mẫu
+        discount: 0,
+        rating: 5,
         trangThai: item.trangThai
     }));
 
@@ -69,8 +71,8 @@ onMounted(() => {
       <header class="flex justify-between items-center mb-8">
         <h2 class="md:text-3xl text-2xl font-bold text-amber-900">
             Sản Phẩm Nổi Bật
-            <span v-if="loading" class="text-sm font-normal text-gray-500">(Đang tải...)</span>
-            <span v-if="error" class="text-sm font-normal text-red-500">({{ error }})</span>
+            <span v-if="loading" class="text-sm font-normal text-gray-500 ml-2">(Đang tải...)</span>
+            <span v-if="error" class="text-sm font-normal text-red-500 ml-2">({{ error }})</span>
         </h2>
         
         <nav class="flex space-x-4" aria-label="Product carousel controls">
@@ -110,7 +112,7 @@ onMounted(() => {
                   <span class="text-sm text-gray-500 ml-1">({{ product.rating }})</span>
                 </div>
 
-                <h3 class="text-lg font-semibold text-gray-800 mb-1 truncate">{{ product.name }}</h3>
+                <h3 class="text-lg font-semibold text-gray-800 mb-1 truncate" :title="product.name">{{ product.name }}</h3>
                 
                 <footer class="flex items-center justify-between mt-3">
                   <div>

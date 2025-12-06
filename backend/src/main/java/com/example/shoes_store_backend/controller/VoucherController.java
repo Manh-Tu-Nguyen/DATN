@@ -1,8 +1,9 @@
 package com.example.shoes_store_backend.controller;
-import jakarta.validation.Valid;
+
 import com.example.shoes_store_backend.dto.VoucherDTO;
 import com.example.shoes_store_backend.entity.VoucherEntity;
 import com.example.shoes_store_backend.service.VoucherService;
+import jakarta.validation.Valid;
 import org.springframework.beans.BeanUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
@@ -24,8 +25,7 @@ public class VoucherController {
     @PostMapping("/add")
     public ResponseEntity<?> add(@Valid @RequestBody VoucherDTO dto, BindingResult result) {
         if (result.hasErrors()) {
-            String msg = result.getAllErrors().get(0).getDefaultMessage();
-            return ResponseEntity.badRequest().body(msg);
+            return ResponseEntity.badRequest().body(result.getAllErrors().get(0).getDefaultMessage());
         }
         try {
             VoucherEntity entity = new VoucherEntity();
@@ -33,15 +33,14 @@ public class VoucherController {
             service.add(entity);
             return ResponseEntity.ok("Thêm voucher thành công!");
         } catch (Exception e) {
-            return ResponseEntity.badRequest().body("Lỗi: " + e.getMessage());
+            return ResponseEntity.badRequest().body(e.getMessage());
         }
     }
 
     @PutMapping("/update/{id}")
     public ResponseEntity<?> update(@PathVariable Integer id, @Valid @RequestBody VoucherDTO dto, BindingResult result) {
         if (result.hasErrors()) {
-            String msg = result.getAllErrors().get(0).getDefaultMessage();
-            return ResponseEntity.badRequest().body(msg);
+            return ResponseEntity.badRequest().body(result.getAllErrors().get(0).getDefaultMessage());
         }
         try {
             VoucherEntity entity = new VoucherEntity();
@@ -49,7 +48,7 @@ public class VoucherController {
             service.update(id, entity);
             return ResponseEntity.ok("Cập nhật voucher thành công!");
         } catch (Exception e) {
-            return ResponseEntity.badRequest().body("Lỗi: " + e.getMessage());
+            return ResponseEntity.badRequest().body(e.getMessage());
         }
     }
 

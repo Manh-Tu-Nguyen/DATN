@@ -11,18 +11,18 @@ import org.springframework.web.bind.annotation.*;
 import java.util.List;
 
 @RestController
-@RequestMapping("/api/mau_sac")
+@RequestMapping("/api/mau-sac") // Sửa từ mau_sac thành mau-sac để khớp Frontend
 public class MauSacController {
 
     @Autowired
     private MauSacService mauSacService;
 
-    @GetMapping("/get_all")
+    @GetMapping
     public ResponseEntity<List<MauSac>> getAll() {
         return ResponseEntity.ok(mauSacService.getAll());
     }
 
-    @PostMapping("/add")
+    @PostMapping
     public ResponseEntity<?> add(@Valid @RequestBody MauSacDTO dto) {
         try {
             MauSac entity = new MauSac();
@@ -36,7 +36,7 @@ public class MauSacController {
         }
     }
 
-    @PutMapping("/update/{id}")
+    @PutMapping("/{id}")
     public ResponseEntity<?> update(@PathVariable Integer id, @Valid @RequestBody MauSacDTO dto) {
         try {
             MauSac entity = new MauSac();
@@ -50,7 +50,7 @@ public class MauSacController {
         }
     }
 
-    @DeleteMapping("/delete/{id}")
+    @DeleteMapping("/{id}")
     public ResponseEntity<?> delete(@PathVariable Integer id) {
         try {
             mauSacService.delete(id);

@@ -14,7 +14,6 @@ import java.util.Map;
 public class thongKe_ThanhToan_Service {
     @Autowired
     private thongKe_ThanhToan_Repository TT_repository;
-    // hiện thị table
     public List<thongKe_ThanhToan_DTO> ggetAllThongKe_ThanhToan(){
         return TT_repository.getALLThongKe_ThanhToan();
     }

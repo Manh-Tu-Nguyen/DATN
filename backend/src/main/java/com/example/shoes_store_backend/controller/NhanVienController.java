@@ -1,45 +1,80 @@
 package com.example.shoes_store_backend.controller;
 
+import com.example.shoes_store_backend.dto.NhanVienDTO;
 import com.example.shoes_store_backend.entity.NhanVien;
 import com.example.shoes_store_backend.service.NhanVienService;
+import jakarta.validation.Valid;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.*;
 
-import java.util.List;
+import java.util.HashMap;
+import java.util.Map;
 
 @RestController
-@RequestMapping("/api/nhan_vien")
+@RequestMapping("/api/nhan-vien")
 public class NhanVienController {
 
     @Autowired
-    private NhanVienService nhanVienService;
+    private NhanVienService nvService;
 
-    // Lấy danh sách tất cả nhân viên
-    @GetMapping("/get_all")
-    public ResponseEntity<List<NhanVien>> getAll() {
-        List<NhanVien> list = nhanVienService.getAll();
-        return ResponseEntity.ok(list);
+    @GetMapping
+    public ResponseEntity<?> getAll() {
+        return ResponseEntity.ok(nvService.getAll());
     }
 
-    // Thêm nhân viên mới
-    @PostMapping("/add")
-    public ResponseEntity<NhanVien> add(@RequestBody NhanVien nv) {
-        NhanVien created = nhanVienService.add(nv);
-        return ResponseEntity.ok(created);
+    @GetMapping("/{id}")
+    public ResponseEntity<?> getById(@PathVariable Integer id) {
+        NhanVien nv = nvService.getById(id);
+        if (nv != null) {
+            return ResponseEntity.ok(nv);
+        }
+        return ResponseEntity.status(HttpStatus.NOT_FOUND).body("Không tìm thấy nhân viên");
     }
 
-    // Sửa nhân viên theo id
-    @PutMapping("/update/{id}")
-    public ResponseEntity<NhanVien> update(@PathVariable Integer id, @RequestBody NhanVien nv) {
-        NhanVien updated = nhanVienService.update(id, nv);
-        return ResponseEntity.ok(updated);
+    @PostMapping
+    public ResponseEntity<?> create(@Valid @RequestBody NhanVienDTO dto, BindingResult result) {
+        if (result.hasErrors()) {
+            Map<String, String> errors = new HashMap<>();
+            result.getFieldErrors().forEach(error ->
+                    errors.put(error.getField(), error.getDefaultMessage())
+            );
+            return ResponseEntity.badRequest().body(errors);
+        }
+
+        try {
+            return ResponseEntity.status(HttpStatus.CREATED).body(nvService.add(dto));
+        } catch (Exception e) {
+            return ResponseEntity.badRequest().body(e.getMessage());
+        }
     }
 
-    // Xóa nhân viên theo id
-    @DeleteMapping("/delete/{id}")
-    public ResponseEntity<String> delete(@PathVariable Integer id) {
-        nhanVienService.delete(id);
-        return ResponseEntity.ok("Xóa nhân viên thành công với id = " + id);
+    @PutMapping("/{id}")
+    public ResponseEntity<?> update(@PathVariable Integer id, @Valid @RequestBody NhanVienDTO dto, BindingResult result) {
+        if (result.hasErrors()) {
+            Map<String, String> errors = new HashMap<>();
+            result.getFieldErrors().forEach(error ->
+                    errors.put(error.getField(), error.getDefaultMessage())
+            );
+            return ResponseEntity.badRequest().body(errors);
+        }
+
+        try {
+            return ResponseEntity.ok(nvService.update(id, dto));
+        } catch (Exception e) {
+            return ResponseEntity.badRequest().body(e.getMessage());
+        }
+    }
+
+    @DeleteMapping("/{id}")
+    public ResponseEntity<?> delete(@PathVariable Integer id) {
+        try {
+            nvService.delete(id);
+            return ResponseEntity.ok("Xóa thành công nhân viên ID: " + id);
+        } catch (Exception e) {
+            return ResponseEntity.status(HttpStatus.NOT_FOUND).body(e.getMessage());
+        }
     }
 }

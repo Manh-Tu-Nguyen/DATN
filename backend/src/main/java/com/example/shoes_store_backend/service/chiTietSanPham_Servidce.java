@@ -14,17 +14,14 @@ public class chiTietSanPham_Servidce {
     @Autowired
     private chiTietSanPham_Repository chiTietSanPham_repository;
 
-    // hiện thị table
     public List<chiTietSanPham_DTO> getAllChiTietSanPham() {
         return chiTietSanPham_repository.getAllChiTietSanPham();
     }
 
-    //    Thêm dữ liệu
     public chiTietSanPham_Entity add(chiTietSanPham_Entity chiTietSanPham_entity) {
         return chiTietSanPham_repository.save(chiTietSanPham_entity);
     }
 
-    //    Xóa Dữ liệu
     public boolean delete(Integer id) {
         Optional<chiTietSanPham_Entity> entity = chiTietSanPham_repository.findById(id);
         if (entity.isPresent()) {
